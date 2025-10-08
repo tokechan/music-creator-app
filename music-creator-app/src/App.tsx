@@ -43,18 +43,38 @@ function App() {
 
 
   return (  
-    <div>
-      <h1 className='text-3xl  font-bold text-gray-500 mb-4 underline'>Generate Music App</h1>
-      <h2 className='text-xl font-bold text-gray-500 mb-4'>Music List</h2>
-        <ul>
+    <div className='p-6'>
+      <h1 className='text-3xl  font-bold text-gray-500 mb-4 underline'>Music List Page</h1>
+      
+      <section>
+      <h2 className='text-xl font-bold text-gray-500 mb-4'>Generate Music</h2>
+      <p>before implement</p>
+      </section>
+
+      <section>
+        <h2 className='text-xl font-bold mb-4'>Reccomended Music</h2>
+        <div className='flex gap-4'>
           {musicList.map((music) => (
-            <li key={music.id} className='border p-4 rounded-md mb-4'>
-              <h3>{music.title}</h3>
-              <p>Artist:{music.artist}</p>
-              <button className='bg-blue-500 text-white p-1 rounded-md' onClick={() => playMusic(music.audioUrl)}>Play</button>
-            </li>
+            <div key={music.id} className='border p-4 rounded mb-4'>
+              <img 
+                src={music.coverUrl}
+                alt={music.title}
+                width='150'
+                height='150'
+                className='rounded mb-2'
+              />
+              <h3 className='font-bold'>{music.title}</h3>
+              <p className='text-gray-500 text-sm'>{music.artist}</p>
+              <button 
+                onClick={() => playMusic(music.audioUrl)}
+                className='mt-2 bg-blue-500 text-white px-3 py-1 rounded'
+              >
+                Play
+              </button>
+            </div>
           ))}
-        </ul>
+        </div>
+      </section> 
     </div>
   )
 }
