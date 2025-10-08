@@ -34,6 +34,14 @@ function App() {
     },
   ];
 
+
+  //music play function
+  const playMusic = (audioUrl: string) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
+  };
+
+
   return (  
     <div>
       <h1 className='text-3xl  font-bold text-gray-500 mb-4 underline'>Generate Music App</h1>
@@ -43,6 +51,7 @@ function App() {
             <li key={music.id} className='border p-4 rounded-md mb-4'>
               <h3>{music.title}</h3>
               <p>Artist:{music.artist}</p>
+              <button className='bg-blue-500 text-white p-1 rounded-md' onClick={() => playMusic(music.audioUrl)}>Play</button>
             </li>
           ))}
         </ul>
