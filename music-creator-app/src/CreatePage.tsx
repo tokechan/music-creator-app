@@ -27,7 +27,6 @@ function CreatePage() {
                     },
                 }
             );
-
             if (response.data && response.data.music_file_path){
                 setGenerateMusic(response.data.music_file_path);
             }
@@ -38,6 +37,31 @@ function CreatePage() {
         console.log('Generating music started...:', {title, genre, prompt});
     };
     
+
+
+    const handleSave = () => {
+        if (!generateMusic || !title || !genre) {
+            alert('Please generte music first');
+            return;
+        }
+        const musicData = {
+            id: Date.now().toString(),
+            title: title,
+            aritist: 'AI Generated',
+            audioUrl: generateMusic,
+            coverUrl: `https://picsum.photos/400/400?random=${Date.now()}`,
+        };
+
+        const saveMusic = JSON.parse(
+            localStorage.getItem('generatedMusic') || '[]'
+        );
+        saveMusic.push(musicData);
+        localStorage.setItem('generatedMusic', JSON.stringify(saveMusic));
+        
+        alert('Music saved successfully');
+    };
+    
+
     return (
       <div>
          <h1 className='text-3xl font-bold text-gray-500 mb-4 underline'>Music Creation Page</h1>
@@ -92,6 +116,8 @@ function CreatePage() {
                     <audio controls>
                         <source src={generateMusic} type='audio/mpeg' />
                     </audio>
+                    <br />
+                    <button onClick={handleSave} className='mt-2 bg-green-500 text-white px-4 py-2 rounded-md'>Save Music</button>
                 </div>
             )}
             </div>
