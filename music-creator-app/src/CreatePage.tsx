@@ -14,9 +14,10 @@ function CreatePage() {
 
         try {
             const formData = new FormData();
-            const musicPrompt =  `Create a ${genre} song titled '${title}'. Musical style: ${prompt}. High quality production with clear melody and rhythm.`;
+            const musicPrompt = `Create a ${genre} song titled "${title}". Musical style: ${prompt}. High quality production with clear melody and rhythm.`;
             formData.append('duration', '45');
-
+            formData.append('prompt', musicPrompt);
+            
             const response = await axios.post(
                 'https://soundtracks.loudly.com/api/ai/prompt/songs',
                 formData,
