@@ -1,9 +1,18 @@
+import { useEffect, useState } from 'react';
 import './App.css'
-import { Button } from './components/ui/button'
+
+
+
+type Music = {
+  id: number;
+  title: string;
+  artist: string;
+  audioUrl: string;
+  coverUrl: string;
+};
 
 function App() {
   
-
   const musicList = [
     {
       id: 1,
@@ -34,6 +43,15 @@ function App() {
     },
   ];
 
+  const [generatedMusic, setGeneratedMusic] = useState<Music[]>([]);
+
+  useEffect(() => {
+    const saveMusic = JSON.parse(
+      localStorage.getItem('generatedMusic') || '[]'
+  );
+  setGeneratedMusic(saveMusic);
+  }, []);
+
 
   //music play function
   const playMusic = (audioUrl: string) => {
@@ -45,16 +63,12 @@ function App() {
   return (  
     <div className='p-6'>
       <h1 className='text-3xl  font-bold text-gray-500 mb-4 underline'>Music List Page</h1>
-      
-      <section>
-      <h2 className='text-xl font-bold text-gray-500 mb-4'>Generate Music</h2>
-      <p>before implement</p>
-      </section>
 
-      <section>
-        <h2 className='text-xl font-bold mb-4'>Reccomended Music</h2>
+      {generatedMusic.length > 0 && (      
+      <section className='border p-4 rounded mb-4'>
+        <h2 className='text-xl font-bold text-gray-500 mb-4'>Generate Music</h2>
         <div className='flex gap-4'>
-          {musicList.map((music) => (
+          {generatedMusic.map((music) => (
             <div key={music.id} className='border p-4 rounded mb-4'>
               <img 
                 src={music.coverUrl}
@@ -64,19 +78,45 @@ function App() {
                 className='rounded mb-2'
               />
               <h3 className='font-bold'>{music.title}</h3>
+                <p className='text-gray-500 text-sm'>{music.artist}</p>
+                <button 
+                  onClick={() => playMusic(music.audioUrl)}
+                  className='mt-2 bg-blue-500 text-white px-3 py-1 rounded'
+                >
+                  Play
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+      )}
+
+      <section className='border p-4 rounded mb-4'>
+        <h2 className='text-xl font-bold text-gray-500 mb-4'>Reccomended Music</h2>
+        <div className='flex gap-4'>
+          {musicList.map((music) => (
+            <div key={music.id} className='border p-4 rounded mb-4'>
+              <img 
+                src={music.coverUrl} 
+                alt={music.title} 
+                width='150' 
+                height='150' 
+                className='rounded mb-2' 
+              />
+              <h3 className='font-bold'>{music.title}</h3>
               <p className='text-gray-500 text-sm'>{music.artist}</p>
               <button 
                 onClick={() => playMusic(music.audioUrl)}
                 className='mt-2 bg-blue-500 text-white px-3 py-1 rounded'
               >
                 Play
-              </button>
-            </div>
+              </button> 
+            </div>    
           ))}
-        </div>
-      </section> 
+          </div>
+        </section> 
     </div>
-  )
+  );
 }
 
 export default App
